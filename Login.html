@@ -1,0 +1,88 @@
+<?php
+session_start();
+include_once("php/validaciones.php");
+include_once("php/Usuarios.php");
+if (isset($_SESSION['usuario']))
+{
+  header("location:sig.html");
+}
+if (isset($_POST['entrar']))
+{
+	$nombreusuario = validarTexto($_POST['name']);
+	$opciones = array(
+		'salt' => "holacraiolaesteesunacontraseñacifrada".$nombreusuario."%dr5#",
+		'cost' => 12
+	  );
+	$password = password_hash($_POST['password'],PASSWORD_DEFAULT,$opciones);
+	$usuario = new Usuario($nombreusuario);
+	
+	if($usuario->contraseña == $password)
+	{
+		$_SESSION['usuario']=$usuario->tipo;
+		header("location:sig.html");
+    }
+	else
+	{
+		//desplegar mensaje de que el usuario o el password son equivocados
+		echo "<script type='text/javascript'>alert('Usuario o contraseña incorrectos');</script>";
+	}
+}
+?>
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="es-MX" xml:lang="es-MX">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<title>SISTEMA INTEGRADO DE GESTIÓN</title>
+    <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="css/Login.css">
+</head>
+<body>
+<header>
+<div class="container"></div>
+<br>
+	<h1>SISTEMA INTEGRADO DE GESTIÓN <br>
+		INSTITUTO TECNOLÓGICO DE LA PAZ</h1>
+	</div>
+<br>
+</header>
+<div class="container h-100">
+		<div class="d-flex justify-content-center h-100">
+			<div class="user_card">
+				<div class="d-flex justify-content-center">
+					<div class="brand_logo_container">
+						<img src="img/ITLP.png" class="brand_logo" alt="Logo">
+					</div>
+				</div>
+				<div class="d-flex justify-content-center form_container">
+					<form method="post" action="">
+						<h1>LOGIN</h1>
+						<div class="input-group mb-3">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-user"></i></span>
+							</div>
+							<input type="text" name="name" class="form-control input_user" value="" placeholder="USUARIO">
+						</div>
+						<div class="input-group mb-2">
+							<div class="input-group-append">
+								<span class="input-group-text"><i class="fas fa-key"></i></span>
+							</div>
+							<input type="password" name="password" class="form-control input_pass" value="" placeholder="CONTRASEÑA">
+						</div>
+						<div class="form-group">
+
+						</div>
+							<div class="d-flex justify-content-center mt-3 login_container">
+				 	<input type="submit" name="entrar" value="Entrar"  class="btn login_btn"></input>
+				   </div>
+					</form>
+				</div>
+			</div>
+		</div>
+</div>
+	
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js"></script>
+</html>

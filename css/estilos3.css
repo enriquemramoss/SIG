@@ -1,0 +1,86 @@
+header{
+    background:#003366;
+    color:#fff;
+    text-align: center;
+}
+
+.main{
+    background:#f2f2f2;
+    color:#fff;
+}
+aside{
+    background:#c0392b;
+    color:#fff;
+}
+footer{
+    background:#16a085;
+    color:#fff;
+}
+
+body,
+html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: #b1b1cc !important;
+}
+
+
+a:link {
+    color: black !important;
+  }
+  
+  /* visited link */
+  a:visited {
+    color: rgb(51, 66, 136)!important;
+  }
+  
+  /* mouse over link */
+  a:hover {
+    color: rgb(131, 20, 75)!important;
+  }
+  
+  /* selected link */
+  a:active {
+    color: rgb(200, 255, 0)!important;
+  }
+
+  .navBardemoBasicUsage md-content .ext-content {
+    padding: 50px;
+    margin: 20px;
+    background-color: #FFF2E0; }
+
+
+@import url('https://fonts.googleapis.com/css?family=Roboto+Condensed&display=swap');
+
+body{
+    background-color: darkslategrey;
+}
+#proc {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    margin-left: 50px;
+    padding-block-end: 35%;
+
+}
+#fondo{
+    background-color: antiquewhite;
+    background-image: url(img/logoTec1.png);
+    background-size: 70%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin-left: 15%;
+    margin-right: 15%;
+   
+}
+#titulo{
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+    margin-left: 50px;
+    color:mediumblue;
+}
+
+#pepe{
+    background:#f2f2f2 !important;
+}

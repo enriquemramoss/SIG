@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+    </head>
+    <body>
+        <script language="javascript">
+            //VALIDACION CHECKBOX
+            function validacion(obj) {
+              var formu=obj.parentElement.parentElement.parentElement.parentElement;
+              limite=1; //limite de checks a seleccionar
+              num=0;
+              if (obj.checked) {
+                for (i=0; ele=formu.children[i]; i++)
+                for (j=0; ele2=formu.children[i].children[j]; j++)
+                for (z=0; ele3=formu.children[i].children[j].children[z]; z++)
+                for (f=0; ele4=formu.children[i].children[j].children[z].children[f]; f++)
+                  if (ele4.checked) num++;
+              if (num>limite)
+                obj.checked=false;
+              }
+            }  
+            </script>
+                <ul id="form1">
+                    <ol>  
+                    <li style= "list-style:none">
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      <input type="checkbox" name="check1" onchange="validacion(this)">fe</input>
+                    </a><img width="15px" name="Eliminadito" height="15px" align="center" src="img/eliminar.png"/>
+                    </li>     
+                 </ol>
+                 <ol>  
+                    <li style= "list-style:none">
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      <input type="checkbox" name="check1" onchange="validacion(this)">fe</input>
+                    </a><img width="15px" name="Eliminadito" height="15px" align="center" src="img/eliminar.png"/>
+                    </li>     
+                 </ol>
+                 <ol>  
+                    <li style= "list-style:none">
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      <input type="checkbox" name="check1" onchange="validacion(this)">fe</input>
+                    </a><img width="15px" name="Eliminadito" height="15px" align="center" src="img/eliminar.png"/>
+                    </li>     
+                 </ol>
+                 <ol>  
+                    <li style= "list-style:none">
+                    <a target="_blank" rel="noopener noreferrer" href="#">
+                      <input type="checkbox" name="check1" onchange="validacion(this)">fe</input>
+                    </a><img width="15px" name="Eliminadito" height="15px" align="center" src="img/eliminar.png"/>
+                    </li>     
+                 </ol>
+            </ul> 
+    </body>
+</html>
+
+
+
+

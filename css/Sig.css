@@ -1,0 +1,98 @@
+body{
+    font-family: Arial, Verdana !important;
+    text-align: center !important;
+    
+}
+header{
+    color:#fff;
+    font-weight: bold;
+    text-align: center;
+    background:#003366 !important;
+    margin: 0;
+    padding: 0;
+    overflow:hidden; 
+    font-size: 20px !important;
+}
+
+header div{
+    background:#003366 !important;
+}
+
+
+  header div ul li a {
+    color:#fff !important;
+    font-size: 15px !important;
+  }
+
+  
+#contenedor{
+    background:#EAEAEA !important;
+}
+
+#menu{
+    background:#333 !important;
+    overflow:auto;
+    display: flex;
+}
+
+#menu ul {
+    margin: auto;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+    border-bottom-style: solid;
+  }
+  
+  #menu li a {
+    font-size: 12px !important;
+    color: white;
+    text-align: left !important;
+  }
+  
+  #menu li a:hover {
+    background-color: #111;
+  }
+
+
+#proc {
+    font-family: 'Roboto Condensed', sans-serif;
+    font-size: 16px;
+    margin-left: 50px;
+    padding-block-end: 35%;
+
+}
+#fondo{
+    background-color:#FFFFFF;
+    background-image: url(../img/logoTec1.png) !important;
+    background-size: 70%;
+    background-position: 50%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    margin-left: 15%;
+    margin-right: 15%;
+    text-align: left !important;
+}
+#titulo{
+    font-family: 'Roboto', sans-serif;
+    margin-top: 20px;
+    margin-left: 50px;
+    color:mediumblue;
+    font-size: 18px !important;
+    font-weight: bold;
+}
+
+#fondo p{
+    font-size: 15px !important;
+    
+
+}
+
+#fondo p a{
+    color:mediumblue;
+    font-weight: bold;
+}
+
+.centrado{
+    text-align: center !important;
+    text-transform: uppercase;
+}

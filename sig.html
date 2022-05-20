@@ -1,0 +1,220 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario']))
+{
+  header("location:Login.html");
+}
+?>
+<!doctype html>
+<html>
+<head>
+	
+	<link rel="icon" type="image/png" href="bootstrap/img/favicon.ico">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta http-equiv="Content-type" content="text/html; charset=utf-8" />
+	<title>SISTEMA INTEGRADO DE GESTIÓN</title>
+
+	<meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+    <meta name="viewport" content="width=device-width" />
+
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+
+    <!-- Bootstrap core CSS    
+    <link rel="stylesheet" href="estilos3.css"> -->
+    <link rel="stylesheet" href="css/Sig.css">
+    <!-- Bootstrap core CSS     -->
+    <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+
+    <!--  Light Bootstrap Table core CSS    -->
+    <link href="bootstrap/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+
+
+    <!--     Fonts and icons     -->
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+    <link href="bootstrap/css/pe-icon-7-stroke.css" rel="stylesheet" />
+
+</head>
+<body>
+        <header>
+                <div>
+                <br>
+                SISTEMA INTEGRADO DE GESTIÓN <br>INSTITUTO TECNOLÓGICO DE LA PAZ
+                </div>
+                
+                <div >
+                        <ul class="nav navbar-nav navbar-right">
+                                <?php
+                                if ($_SESSION['usuario']=="Administrador")
+                                {
+                                  ?>
+                                  <li>     
+                                        <a href="procesos.html" class="navbar-brand"> GESTOR DE CONTENIDO </a>          
+                                  </li>
+                                <?php }
+                                ?>
+                            
+                            <li >
+                                    <a href="php/logout.php" class="navbar-brand"> SALIR </a>
+                            </li>
+                        </ul>
+                </div>
+        </header>
+
+<div id="contenedor" ng-app="myApp" ng-controller="myCtrl" ng-cloak id="main" ng-init='menus="1"'>   
+    <div id="menu">           
+                <ul class="navbar-nav" ng-repeat="proceso in menus">
+                        <li class="nav-item" ng-click="Actualizar($index)">
+                        <a href="" class="navbar-brand" id="navbar-brandf">{{proceso.nombre}} </a> </li>
+                </ul>  
+    </div>  
+   <div id=fondo>
+    <br>
+    <h2 class="centrado" id=titulo>PROCESO</h2>
+    <p id=proc></p>
+    </div>
+
+</div>
+
+<form id="Proceso" name="Proceso">
+        <input type="hidden" name="idP">
+
+        <input type="hidden" name="idTipo" >
+</form>
+</body>
+
+    <!--   Core JS Files   -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript"></script>
+    <?php 
+    if ($_SESSION['usuario']=="Administrador")
+    {
+    ?>
+    <script>
+    $("input[name='idTipo']").val("Administrador");
+    </script>
+    <?php
+    }
+    ?>
+
+    <?php 
+    if ($_SESSION['usuario']=="Común")
+    {
+    ?>
+    <script>
+    $("input[name='idTipo']").val("Común");
+    </script>
+    <?php
+    }
+    ?>
+
+    <?php 
+    if ($_SESSION['usuario']=="Invitado")
+    {
+    ?>
+    <script>
+    $("input[name='idTipo']").val("Invitado");
+    </script>
+    <?php
+    }
+    ?>
+    <script>
+        $procedimiento=null;
+        $Anexos=null;
+        $primero=null;
+        $nombre=null;
+            var app = angular.module('myApp', [])	
+            app.controller('myCtrl', function($scope, $http) {   
+                $http.get("php/Sig.php?be=i")
+                .then(function(response) {
+                $scope.menus=response.data;
+                menus=response.data;
+                $primero=menus[0].id;
+                $nombre=menus[0].nombre;
+                $("input[name='idP']").val($primero);
+                $formulario = $("#Proceso");
+                var datosFormulario = $formulario.serialize();
+                var request = $http({
+                                method: "post",
+                                url: "php/Sig.php?ba=i&"+datosFormulario,                    
+                                data: datosFormulario
+                            }).then(function(response) { 
+                                $procedimiento=response.data[0];
+                                $Anexos=response.data[1];
+                                if(response.data!=null&&response.data!=""){
+                                    ver($procedimiento,$Anexos,$nombre);
+                                }
+                                else
+                                {
+                                    titulo.innerHTML = $nombre;
+                                    proc.innerHTML = "";
+                                }
+                });  
+                });    
+
+                $scope.Actualizar = function(index) {
+                $("input[name='idP']").val(menus[index].id);
+                $formulario = $("#Proceso");
+                var datosFormulario = $formulario.serialize();
+                var request = $http({
+                                method: "post",
+                                url: "php/Sig.php?ba=i&"+datosFormulario,                    
+                                data: datosFormulario
+                            }).then(function(response) { 
+                                $procedimiento=response.data[0];
+                                $Anexos=response.data[1];         
+                                if(response.data!=null&&response.data!=""){
+                                    ver($procedimiento,$Anexos,menus[index].nombre);
+                                }
+                                else
+                                {
+                                    titulo.innerHTML = menus[index].nombre;
+                                    proc.innerHTML = "";
+                                }
+                });  
+
+                };
+           });
+           function ver($procedimiento,$Anexos,$nombreproceso){
+            //var arreglo = [["Primer anexo","www.google.com","Proceso"],["Nombre1","Link2","Proceso2"]];
+                    //var procedimiento = [["Procedimiento para la inscripción de estudiantes","Itlp-doc-01.pdf"],["Procedimiento para la inscripción de estudiantes","Itlp-doc-01.pdf"], ["Procedimiento para el acto protocolario de titulación","Itlp-doc2-01.pdf"]];
+                    //var Anexos = [[["Lista de aspirantes aceptados", "Lista1.pdf"],["Solicitud de Inscripción","Lista2.pdf"]],[["Solicitud de estudiante", "Solicitud.pdf"],["Aviso de realizacion de acto protocolario","Aviso.pdf"]],[["Mecanicas para jugar lol", "Mecanicas.pdf"],["Nachomanco","Nachomanco.pdf"]]];
+                    var procedimiento=$procedimiento;
+                    var Anexos=$Anexos;
+
+                    var anex = "";
+                    var pro ="";
+                    var ceso = ""; 
+                    for(let j = 0; j < procedimiento.length; j++){
+                        if (procedimiento[j][1]==""||procedimiento[j][1]==null)
+                        {
+                            pro = procedimiento[j][0] +"<br>"
+                        }
+                        else
+                        {
+                            if (procedimiento[j][1].length==2)
+                            pro = "<a target='_blank' rel='noopener noreferrer' href=" +'"documents/procedimientos/' + procedimiento[j][2] +'/'+procedimiento[j][1][0] + '"' + "</a>"+ (j+1)+ ".- "+ procedimiento[j][0] +"</a> <a target='_blank' rel='noopener noreferrer' href=" +'"documents/procedimientos/' + procedimiento[j][2] +'/'+procedimiento[j][1][1] + '"' + "</a>"+"(2)" +"</a><br>"
+                            else
+                            pro = "<a target='_blank' rel='noopener noreferrer' href=" +'"documents/procedimientos/' + procedimiento[j][2] +'/'+procedimiento[j][1][0] + '"' + "</a>"+ (j+1)+ ".- "+ procedimiento[j][0] +"</a><br>"
+                        }
+                       for (let i = 0; i < Anexos[j].length; i++) {
+                                if(Anexos[j][i][1]==""||Anexos[j][i][1]==null){
+                                    anex = anex + "Anexo"+ " " + (i+1) +"."+ " " + Anexos[j][i][0]+"<br>";
+                                }
+                                else{
+                                    if(Anexos[j][i][1].length==2)
+                                    anex = anex + "Anexo"+ " " + (i+1) +"."+ " " + Anexos[j][i][0] + "."+ " " + "<a target='_blank' rel='noopener noreferrer' href=" +'"documents/anexos/'+ Anexos[j][i][2]+'/'+ Anexos[j][i][1][0] + '"' + "</a>(VER FORMATO)" +"</a>" + "<a target='_blank' rel='noopener noreferrer' href=" +'"documents/anexos/'+ Anexos[j][i][2]+'/'+ Anexos[j][i][1][1] + '"' + "</a>(VER FORMATO 2)" +"</a> <br>";
+                                    else
+                                    anex = anex + "Anexo"+ " " + (i+1) +"."+ " " + Anexos[j][i][0] + "."+ " " + "<a target='_blank' rel='noopener noreferrer' href=" +'"documents/anexos/'+ Anexos[j][i][2]+'/'+ Anexos[j][i][1] + '"' + "</a>(VER FORMATO)" +"</a><br>";
+                                }
+                               }
+                    ceso = ceso + (pro + anex) +"<br>"; 
+                    anex= "";
+                    }
+                    proc.innerHTML = ceso;
+                    titulo.innerHTML = $nombreproceso;
+           }
+                   
+            </script>
+</html>

@@ -1,0 +1,652 @@
+<?php
+session_start();
+if (!isset($_SESSION['usuario'])||($_SESSION['usuario']!="Administrador"))
+{
+  header("location:Login.html");
+}
+?>
+<!DOCTYPE html>
+<html>
+        <head >
+	
+                <!--<link rel="icon" type="image/png" href="assets/img/favicon.ico">-->
+                <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+                <meta http-equiv="Content-type" Content-type="application/docx" content="text/html; charset=utf-8" />
+                <title>SISTEMA INTEGRADO DE GESTIÓN</title>
+            
+                <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
+                <meta name="viewport" content="width=device-width" />
+            
+                <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+            
+                <link rel="stylesheet" href="css/Gestor.css">
+                <!-- Bootstrap core CSS     -->
+                <link href="bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+            
+                <!--  Light Bootstrap Table core CSS    -->
+                <link href="bootstrap/css/light-bootstrap-dashboard.css?v=1.4.0" rel="stylesheet"/>
+            
+            
+                <!--     Fonts and icons     -->
+                <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+                <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300' rel='stylesheet' type='text/css'>
+                <link href="bootstrap/css/pe-icon-7-stroke.css" rel="stylesheet">
+                
+            </head>
+<body>
+<div ng-app="myApp" ng-controller="myCtrl">
+<div class="wrapper">
+    <div class="sidebar" data-color="blue" data-image="assets/img/sidebar-4.jpg">
+
+    <!--
+
+        Tip 1: you can change the color of the sidebar using: data-color="blue | azure | green | orange | red | purple"
+        Tip 2: you can also add an image using data-image tag
+
+    -->
+
+    	<div class="sidebar-wrapper">
+            <div class="logo">
+                    <img src="img/itlp.png" class="brand_logo" alt="Logo">
+            </div>
+
+            <ul class="nav">
+                <li>
+                    <a href="procesos.html">
+                        <i class="pe-7s-graph"></i>
+                        <p>Procesos</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="procedimientos.html">
+                        <i class="pe-7s-user"></i>
+                        <p>Procedimientos</p>
+                    </a>
+                </li>
+                <li>
+                    <a href="anexos.html">
+                        <i class="pe-7s-note2"></i>
+                        <p>Anexos</p>
+                    </a>
+                </li>
+                <li class="active">
+                    <a href="usuarios.html">
+                        <i class="pe-7s-news-paper"></i>
+                        <p>Usuarios</p>
+                    </a>
+                </li>
+            </ul>
+    	</div>
+    </div>
+
+    <div class="main-panel">
+            <nav class="navbar navbar-default navbar-fixed">
+                    <div class="container-fluid" id="mainheader">
+                        <div class="navbar-header">
+                                <a href="procesos.html" class="navbar-brand" id="navbar-brand"> PROCESOS </a>
+                                <a href="procedimientos.html" class="navbar-brand" id="navbar-brand"> PROCEDIMIENTOS </a>
+                                <a href="anexos.html" class="navbar-brand" id="navbar-brand"> ANEXOS </a>
+                                <a href="usuarios.html" class="navbar-brand" id="navbar-brandf"> USUARIOS </a>
+                                <a href="sig.html" class="navbar-brand" id="navbar-brand"> PAGINA PRINCIPAL </a>
+                        </div>
+                        <div class="collapse navbar-collapse" >
+                            <ul class="nav navbar-nav navbar-right">
+                                <li id="collapse">               
+                                </li>
+                                <li id="collapse">
+                                        <a href="logout.php" class="navbar-brand" id="navbar-brandf"> SALIR </a>
+                                    </li>
+                                
+                            </ul>
+                        </div>
+                    </div>
+                </nav>
+
+
+        
+        <div class="content">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-md-12">
+                                <div class="card" id="header2">
+                                        <div class="header">
+                                            <h4 class="title">Agregar Nuevo Usuario</h4>
+                                        
+                                        <button type="button" class="btn btn-outline-primary" name="Agregar">Agregar</button>
+                                    </div>
+                                </div>
+                                <div class="card" id="header2">
+                                    <div class="header">
+                                        <h4 class="title">Documentos a Visualizar</h4>
+                                        <div class="container">
+                                                <form id="privilegio" name="privilegio">
+                                                        <input type="hidden" name="stringprivilegio" value="0">
+                                                        <input type="hidden" name="nombreprivilegio" value="0">
+                                                </form>
+                                            <dl class="row">
+                                              <dt class="col-sm-3">Invitado</dt>
+                                              <dd class="col-sm-3"> <input type="checkbox" id="IchPDF" onclick="privilegiosC(this)">
+                                                PDF
+                                              </dd>
+                                              <dd class="col-sm-3"> <input type="checkbox"  id="IchWORD" onclick="privilegiosC(this)">
+                                                WORD
+                                              </dd>
+                                              <dd class="col-sm-3"> <input type="checkbox"  id="IchEXCEL" onclick="privilegiosC(this)">
+                                                EXCEL
+                                              </dd>
+                                              </dl>
+                                              <dl class="row">
+                                              <dt class="col-sm-3">Común</dt>
+                                              <dd class="col-sm-3"> <input type="checkbox"  id="CchPDF" onclick="privilegiosC(this)">
+                                                PDF
+                                              </dd>
+                                              <dd class="col-sm-3"> <input type="checkbox"  id="CchWORD" onclick="privilegiosC(this)">
+                                                WORD
+                                              </dd>
+                                              <dd class="col-sm-3"> <input type="checkbox"  id="CchEXCEL" onclick="privilegiosC(this)">
+                                                EXCEL
+                                              </dd>
+                                            </dl>
+                                          </div>
+                                </div>
+                            </div>
+                            <div class="card">
+                                <div class="header">
+                                    <h4 class="title">Usuarios</h4>
+                                    <p class="category">Lista de usuarios existentes</p>
+                                </div>
+                                <div class="content table-responsive table-full-width">
+                                    <table id="tblSearch" class="table table-hover table-striped" ng-init='datos="1";pepe="1"' ng-table="tableParams">
+                                        <thead>
+                                            <th>Nombre</th>
+                                            <th>Tipo</th>
+                                            <th>Disponibilidad</th>
+                                            <th>Acción</th>
+                                        </thead>
+                                        <tbody>
+                                                <tr ng-repeat="proceso in datos">
+                                                        <td>{{proceso.nombre}}</td>
+                                                        <td>{{proceso.tipo}}</td>
+                                                        <td>{{proceso.disponibilidad}}</td>
+                                                        <td>
+                                                                <img ng-click="Actualizar($index)" width="20px" name="Editar" height="20px" align="center" src="img/detalles.jpg"/>
+                                                                <img ng-click="Eliminar($index,$event)" width="20px" name="Eliminar" height="20px" align="center" src="img/eliminar.png"/>
+                                                                <img ng-click="Reactivar($index,$event)" width="20px" name="Reactivar" height="20px" align="center" src="img/reactivar.png"/>
+                                                        </td>
+                                                   </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+    
+                    </div>
+                </div>
+        </div>
+
+        <footer class="footer">
+                <div class="container-fluid">
+                        <nav class="pull-left">
+                            <a>SISTEMA INTEGRADO DE GESTIÓN DEL INSTITUTO TECNOLÓGICO DE LA PAZ</a>
+                        </nav>
+                </div>
+        </footer>
+
+    </div>
+</div>
+
+<Divs>
+<!--
+    Div de agregar
+-->
+    <div id="divAgregar"  style="display:none" > 
+        <div class="card" id="card">
+                <div class="header" id="header">
+                    <h4 id="title">Agregar Nuevo Usuario</h4>
+                </div>
+                <div class="content">
+                    <form id="Proced" name="Proced">
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <div class="form-group">
+                                        <label id="lb">Nombre del Usuario</label>
+                                        <input type="text" class="form-control" placeholder="Nombre" name="usuario">
+                                        <label id="lb">Contraseña</label>
+                                        <input type="text" class="form-control" id="exampleInputPassword1" placeholder="Contraseña" name="contraseña">
+                                        <br>
+                                        <input type='hidden' id="tipo" name="tipo" value="Invitado"/>
+                                        <label id="lb">Tipo de Usuario</label>
+                                        <select id="selectedtipo" name='selectedtipo'>
+                                            <option value="Invitado" >Invitado</option>
+                                            <option value="Común">Común</option>
+                                            <option value="Administrador" >Administrador</option>
+                                          </select>
+                                        </div>
+                                </div>
+                        </div>
+                        
+                                
+                       <br>
+                        <div class="clearfix"></div>
+                    </form>
+                    <div class="col-md-12">
+                        <div class="btn-group" role="group" aria-label="Basic example" id="btn-group">
+                            <button name="btnCancelar" type="button" class="btn pull-right">Cancelar</button>
+                            <button type="button" class="btn pull-right" data-ng-click="agregar()">Agregar</button>
+                        </div>
+                   </div>
+                   <br>
+                   <br>
+                </div>
+        </div>
+    </div>
+<!--
+    Div de seguro eliminar
+-->
+   <div id="divSeguro"  style="display:none"> 
+        <div class="card" id="card">
+                <div class="header" id="header">
+                    <h4 id="title">Eliminar Usuario</h4>
+                </div>
+                <div class="content">
+                    <form id="seguro" name="seguro">
+                        <div class="row">
+                                <div class="col-md-12">
+                                        <div class="form-group">
+                                                <input type="hidden" name="ido" >
+                                                <fieldset><legend>¿Seguro que desea eliminar el usuario {{pepe}} ?</legend> 
+                                                </fieldset>
+                                        </div>                                 
+                                </div>
+                        </div>
+                                 
+
+                        <div class="clearfix"></div>
+                    </form>
+                       <div class="col-md-12">
+                            <div class="btn-group" role="group" aria-label="Basic example" id="btn-group">
+                                <button id="btnNo" type="button" class="btn pull-right">No</button>
+                                <button id="btnSi" type="button" class="btn pull-right" data-ng-click="siElm()">Si</button>
+                            </div>
+                       </div>
+                       <br>
+                       <br>
+                </div>
+        </div>
+   </div>  
+   <!--
+    Div de seguro reactivcar
+-->
+   <div id="divReact"  style="display:none"> 
+    <div class="card" id="card">
+            <div class="header" id="header">
+                <h4 id="title">Activar Usuario</h4>
+            </div>
+            <div class="content">
+                <form id="seguroA" name="seguroA">
+                    <div class="row">
+                            <div class="col-md-12">
+                                    <div class="form-group">
+                                            <input type="hidden" name="ida" >
+                                            <fieldset><legend>¿Seguro que desea activar el usuario {{pepe}} ?</legend> 
+                                            </fieldset>
+                                    </div>                                 
+                            </div>
+                    </div>
+                             
+
+                    <div class="clearfix"></div>
+                </form>
+                   <div class="col-md-12">
+                        <div class="btn-group" role="group" aria-label="Basic example" id="btn-group">
+                            <button id="btnNoA" type="button" class="btn pull-right">No</button>
+                            <button id="btnSiA" type="button" class="btn pull-right" data-ng-click="siAct()">Si</button>
+                        </div>
+                   </div>
+                   <br>
+                   <br>
+            </div>
+    </div>
+   </div>
+   <!--
+    Div de Cambiar Nombre
+-->
+    <div id="divCambiar"  style="display:none" > 
+    <div class="card" id="card">
+            <div class="header" id="header">
+                <h4 id="title">Modificar Usuario</h4>
+            </div>
+            <div class="content">
+                <form id="Proced2" name="Proced2">
+                    <div class="row">
+                            <div class="col-md-12">
+                                    <div class="form-group">
+                                    <input type="hidden" name="idM" >
+                                    <label id="lb">Nombre del Usuario</label>
+                                    <input type="text" class="form-control" placeholder="Nombre" id="idusuarioM" name="idusuarioM" >
+                                    <!--<label id="lb">Contraseña</label>-->
+                                    <input type="checkbox" name="ChangePass" id="ChangePass" onclick="myFunction()">Cambiar Contraseña<br>
+                                        <input type="text" class="form-control" placeholder="Contraseña" id="contraseñaM" name="contraseñaM" disabled>
+                                        <br>
+                                        <input type='hidden' id="tipoM" name="tipoM" value="Invitado"/>
+                                        <label id="lbM">Tipo de Usuario</label>
+                                        <select id="selectedtipoM" name='selectedtipo2'>
+                                            <option id="OPC1" value="Invitado" >Invitado</option>
+                                            <option id="OPC2" value="Común">Común</option>
+                                            <option id="OPC3" value="Administador">Administrador</option>
+                                          </select>    
+                                    </div>
+                            </div>
+                    </div>
+                    
+                            
+                   <br>
+                    <div class="clearfix"></div>
+                </form>
+                <div class="col-md-12">
+                    <div class="btn-group" role="group" aria-label="Basic example" id="btn-group">
+                        <button name="btnCancelarC" type="button" class="btn pull-right">Cancelar</button>
+                        <button type="button" class="btn pull-right" data-ng-click="cambiar()">Cambiar</button>
+                    </div>
+               </div>
+               <br>
+               <br>
+            </div>
+    </div>
+    </div>
+</Divs>
+</div>
+</body>
+
+    <!--   Core JS Files   -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="bootstrap/js/bootstrap.min.js" type="text/javascript"></script>
+    <script type="text/javascript">
+        var datos;
+            $(document).ready(function(){
+              $("[Name=Agregar]").click(function(){     
+               $("#divAgregar").css("display","block");
+              });
+
+              $("[Name=btnCancelar").click(function(){
+                $("#divAgregar").css("display","none");   
+              });
+
+              $("[Name=btnCancelarC").click(function(){
+                $("#divCambiar").css("display","none");   
+              });
+
+              $("#btnNo").click(function(){
+               $("#divSeguro").css("display","none");   
+
+              });
+
+              $("#btnNoA").click(function(){
+               $("#divReac").css("display","none");   
+              });
+              $("#selectedtipo").change(function(){
+              var studentNmae= $('option:selected', this).attr('value');
+              $('#tipo').val(studentNmae);
+              });            
+            });
+
+                function myFunction() {
+                var checkBox = document.getElementById("ChangePass");
+                //var text = document.getElementById("contraseñaM");
+                if (checkBox.checked == true){
+                    $('#contraseñaM').removeAttr('disabled');
+                } else {
+                    $('#contraseñaM').attr('disabled','disabled');
+                }
+                }
+
+                function privilegiosC(obj)
+                {
+                   $privileg="";
+                   var formu=obj.parentElement.parentElement;                  
+                   $("input[name='nombreprivilegio']").val(obj.parentElement.parentElement.children[0].innerText);
+                   for (i=0; ele=formu.children[i]; i++)
+                   {
+                   for (j=0; ele2=formu.children[i].children[j]; j++)
+                   {
+                    if(ele2.checked)
+                    $privileg=$privileg+"1";
+                    else
+                    $privileg=$privileg+"0";
+                   }
+                   $privileg=$privileg+" ";
+                   }
+                   $privileg = $privileg.slice(1, -1);
+                   $("input[name='stringprivilegio']").val($privileg);
+                   $formulario = $("#privilegio");
+                    var datosFormulario = $formulario.serialize();
+                    $.ajax({
+                                url: "php/Usuarios.php?ip=i&"+datosFormulario,
+                                type: "post",
+                                dataType: "html",
+                                data: datosFormulario,
+                                cache: false,
+                                contentType: false,
+                                processData: false
+                                })
+                                .done(function(res){
+                                });
+                }
+            
+        </script>
+    <script>
+            var app = angular.module('myApp', [])	
+            app.controller('myCtrl', function($scope, $http) {
+                $http.get("php/Usuarios.php?se=i")
+                .then(function(response) {
+                $scope.datos = response.data;
+                datos = response.data;
+                Elm();
+                });
+                cargarprivilegios();
+
+                function cargarprivilegios(){
+                $http.get("php/Usuarios.php?cp=i")
+                .then(function(response) {
+                    $privilegios=response.data;
+                    $privilegios.forEach(myFunction);
+                    function myFunction(item, index) {
+                    if(item[0]=="Invitado")
+                    {
+                        $arreglito=item[1].split(" ");
+                        if($arreglito[0]=="1")
+                        document.getElementById("IchPDF").checked = true;
+                        if($arreglito[1]=="1")
+                        document.getElementById("IchWORD").checked = true;
+                        if($arreglito[2]=="1")
+                        document.getElementById("IchEXCEL").checked = true;
+                    }
+                    if(item[0]=="Común")
+                    {
+                        $arreglito=item[1].split(" ");
+                        if($arreglito[0]=="1")
+                        document.getElementById("CchPDF").checked = true;
+                        if($arreglito[1]=="1")
+                        document.getElementById("CchWORD").checked = true;
+                        if($arreglito[2]=="1")
+                        document.getElementById("CchEXCEL").checked = true;
+                    }
+                    //document.getElementById("demo").innerHTML += index + ":" + item + "<br>";
+                    }
+                });
+                }
+
+
+                function Elm()
+                {
+                    angular.element(document).ready(function () {
+                    var cont=0;
+                    var cont2=0;
+                    var elem = angular.element(document.getElementsByTagName('td'));
+                    for(i=0; i<elem.length; i++){
+                        if(elem[cont].innerText=='No'){
+                            if(elem[cont-1].innerText!='Master'){
+                            cont2=cont2+1;
+                            var elem2=elem[cont+1].children
+                            elem2[1].style.opacity= "0.5";
+                            elem2[2].style.opacity= "1"; 
+                            }
+                            else{
+                            var elem2=elem[cont+1].children
+                            
+                            elem2[1].style.visibility= "hidden";
+                            elem2[2].style.visibility= "hidden";
+                            }
+                                                     
+                        }
+                        if(elem[cont].innerText=='Si'){
+                            if(elem[cont-1].innerText!='Master'){
+                            cont2=cont2+1;
+                            var elem2=elem[cont+1].children
+                            elem2[1].style.opacity= "1";
+                            elem2[2].style.opacity= "0.5";      
+                            }        
+                            else{
+                            var elem2=elem[cont+1].children
+                            
+                            elem2[1].style.visibility= "hidden";
+                            elem2[2].style.visibility= "hidden";
+                            }             
+                        }
+                        cont=cont+1;
+                    }
+                });
+                }
+
+                $scope.agregar = function(){
+                    $formulario = $("#Proced");
+                    var datosFormulario = $formulario.serialize();
+                    var request = $http({
+                                method: "post",
+                                url: "php/Usuarios.php?op=i&"+datosFormulario,                    
+                                data: datosFormulario
+                            }).then(function(response) { 
+                                  $scope.datos = response.data;
+                                  datos = response.data;
+                                  $("#divAgregar").css("display","none");
+                                  $formulario.reset();
+                                  Elm();
+                            });
+                };
+                $scope.cambiar = function(){
+                var checkBox = document.getElementById("ChangePass");
+                //var text = document.getElementById("contraseñaM");
+                if (checkBox.checked == true){
+                    $formulario = $("#Proced2");
+                    var datosFormulario = $formulario.serialize();
+                    var request = $http({
+                                method: "post",
+                                url: "php/Usuarios.php?wc=i&"+datosFormulario,                    
+                                data: datosFormulario
+                            }).then(function(response) { 
+                                  $scope.datos = response.data;
+                                  datos = response.data;
+                                  $("#divCambiar").css("display","none");
+                                  Elm();
+                            });
+                    }
+                    else{
+                                $formulario = $("#Proced2");
+                            var datosFormulario = $formulario.serialize();
+                            var request = $http({
+                                        method: "post",
+                                        url: "php/Usuarios.php?wtc=i&"+datosFormulario,                    
+                                        data: datosFormulario
+                                    }).then(function(response) { 
+                                        $scope.datos = response.data;
+                                        datos = response.data;
+                                        $("#divCambiar").css("display","none");
+                                    
+                                        Elm();
+                                    });
+                            
+                            }
+                };
+
+                $scope.Eliminar = function(index,e) {
+                    if(e.target.style.opacity!="0.5")
+                    {
+                    $scope.pepe = String(datos[index].nombre);
+                    $("input[name='ido']").val(datos[index].nombre);
+                    $("#divSeguro").css("display","block");  
+                    }                
+                };
+                $scope.Actualizar = function(index) {
+                    $("#Proced2")[0].reset();
+                    //$scope.pepe = String(datos[index].id);
+                    $("input[name='idM']").val(datos[index].nombre);
+                    //$("input[name='idproceso2']").val(datos[index].nombre);
+                    $("input[name='idusuarioM']").val(datos[index].nombre);  
+                    if(datos[index].tipo=="Invitado")
+                    {
+                        $('#lbM').css("display","block");
+                        $('#selectedtipoM').css("display","block");
+                        $("#selectedtipoM").val("Invitado").change();
+                        $("input[name='tipoM']").val("Invitado");
+                        
+                    } 
+                    if(datos[index].tipo=="Común")
+                    {
+                        $('#lbM').css("display","block");
+                        $('#selectedtipoM').css("display","block");
+                        $("#selectedtipoM").val("Común").change();
+                        $("input[name='tipoM']").val("Común");
+                        
+                    } 
+                    if(datos[index].tipo=="Administrador")
+                    {
+                        $('#lbM').css("display","block");
+                        $('#selectedtipoM').css("display","block");
+                        $("#selectedtipoM").val("Administrador").change();
+                        $("input[name='tipoM']").val("Administrador");
+                    }           
+                    $("#divCambiar").css("display","block");              
+                };
+                $scope.Reactivar = function(index,e) {
+                    if(e.target.style.opacity!="0.5")
+                    {
+                    $scope.pepe = String(datos[index].nombre);
+                    $("input[name='ida']").val(datos[index].nombre);
+                    $("#divReact").css("display","block");  
+                    }                
+                };
+
+                $scope.siElm = function(){
+                   $formulario = $("#seguro");
+                   var datosFormulario = $formulario.serialize();
+                   var request = $http({
+                    method: "post",
+                    url: "php/Usuarios.php?pa=i&"+datosFormulario,                    
+                    data: datosFormulario
+                    }).then(function(response) {
+                     $scope.datos = response.data;
+                     datos = response.data; 
+                      $("#divSeguro").css("display","none");
+                      Elm();  
+                    });
+
+                };
+                $scope.siAct = function(){
+                   $formulario = $("#seguroA");
+                   var datosFormulario = $formulario.serialize();
+                   var request = $http({
+                    method: "post",
+                    url: "php/Usuarios.php?pp=i&"+datosFormulario,                    
+                    data: datosFormulario
+                    }).then(function(response) {
+                     $scope.datos = response.data;
+                     datos = response.data; 
+                      $("#divReact").css("display","none");
+                      Elm();  
+                    });
+
+                };
+            });
+            </script>
+</html>
